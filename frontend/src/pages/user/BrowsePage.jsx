@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { rentMovie } from "../../api/rental";
 
 const BrowsePage = () => {
   const [open, setOpen] = useState(false);
