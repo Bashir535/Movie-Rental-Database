@@ -12,6 +12,7 @@ import BrowsePage from './pages/user/BrowsePage'
 import HiddenRoute from './shared/HiddenRoute'
 import ProtectedRoute from './shared/ProtectedRoute'
 import CreateMovie from './pages/admin/CreateMovie'
+import NavBar from './shared/Navbar'
 
 function Main() {
  
@@ -37,6 +38,7 @@ function Main() {
 function App() {
   return (
     <Router>
+      <NavBar />
       <Main />
       <Toaster position="top-center" reverseOrder={false} />
     </Router>
