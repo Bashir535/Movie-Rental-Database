@@ -7,9 +7,12 @@ import { rentMovie } from "../../api/rental";
 const BrowsePage = () => {
   const [open, setOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
+    const { user } = useSelector((state) => state.auth);
+
 
   const movies = [
     {
+      movieID: 1,
       title: "The Night Runner",
       genre: "Action",
       year: 2022,
@@ -18,6 +21,7 @@ const BrowsePage = () => {
       rating: 4.5,
     },
     {
+      movieID: 2,
       title: "Silent Echo",
       genre: "Drama",
       year: 2020,
@@ -26,6 +30,7 @@ const BrowsePage = () => {
       rating: 4.2,
     },
     {
+      movieID: 3,
       title: "Galactic Drift",
       genre: "Sci-Fi",
       year: 2023,
@@ -44,6 +49,31 @@ const BrowsePage = () => {
     setOpen(false);
     setSelectedMovie(null);
   };
+          const handleRent = async () => {
+    if (!user) {
+      toast.error("You must be logged in to rent a movie.");
+      return;
+    }
+
+    if (!selectedMovie || !selectedMovie.movieID) {
+      toast.error("Missing movie ID for this movie.");
+      return;
+    }
+
+    try {
+      await rentMovie(user.customerID, selectedMovie.movieID);
+      toast.success("Movie rented successfully!");
+
+      
+      setSelectedMovie((prev) =>
+        prev ? { ...prev, stock: prev.stock - 1 } : prev
+      );
+    } catch (e) {
+      const msg = e?.response?.data || "Could not rent movie.";
+      toast.error(msg);
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-black text-white px-6 py-10">
@@ -197,7 +227,10 @@ const BrowsePage = () => {
             </div>
 
             
-            <button className="w-full bg-white text-black font-semibold p-3 rounded-lg hover:bg-gray-200 transition">
+                        <button
+              className="w-full bg-white text-black font-semibold p-3 rounded-lg hover:bg-gray-200 transition"
+              onClick={handleRent}
+            >
               Rent Movie
             </button>
           </div>
