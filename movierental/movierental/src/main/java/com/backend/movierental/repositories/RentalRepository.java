@@ -1,5 +1,6 @@
 package com.backend.movierental.repositories;
 
+import com.backend.movierental.models.Movie;
 import com.backend.movierental.models.Rental;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,6 +26,26 @@ public class RentalRepository {
                 rental.getRentalDate(),
                 rental.getReturnDate()
         );
+    }
+        public java.util.List<Movie> getMoviesRentedByCustomer(int customerID) {
+        String sql = """
+            SELECT m.movieID, m.title, m.genre, m.releaseYear, m.stock, m.rentalRate
+            FROM Rentals r
+            JOIN Movies m ON r.movieID = m.movieID
+            WHERE r.customerID = ?
+        """;
+
+        return jdbc.query(sql, (rs, rowNum) -> {
+            Movie mv = new Movie();
+            mv.setMovieID(rs.getInt("movieID"));
+            mv.setTitle(rs.getString("title"));
+            mv.setGenre(rs.getString("genre"));
+            mv.setReleaseYear(rs.getInt("releaseYear"));
+            mv.setStock(rs.getInt("stock"));
+            mv.setRentalRate(rs.getDouble("rentalRate"));
+            
+            return mv;
+        }, customerID);
     }
 
     
