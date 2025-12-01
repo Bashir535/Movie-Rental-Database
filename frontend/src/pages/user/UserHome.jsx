@@ -1,20 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getUserRentedMovies } from "../../api/rental";
+import toast from "react-hot-toast";
 
- const UserHome = () => {
+const UserHome = () => {
   const [open, setOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const { user } = useSelector((state) => state.auth);
-  const movies = [
-   ];
+  const [movies, setMovies] = useState([]);
 
-  const movies = [
-    { title: "Movie Title 1", genre: "Action", year: "2023" },
-    { title: "Movie Title 2", genre: "Drama", year: "2021" },
-    { title: "Movie Title 3", genre: "Sci-Fi", year: "2022" },
-    { title: "Movie Title 4", genre: "Comedy", year: "2020" },
-  ];
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const fetchRentedMovies = async () => {
+      if (!user) return;
+
+      try {
+        const data = await getUserRentedMovies(user.customerID);
+        setMovies(data);
+      } catch (e) {
+        console.error(e);
+        toast.error("Failed to load your rented movies.");
+      }
+    };
+
+    fetchRentedMovies();
+  }, [user]);
 
   const openModal = (movie) => {
     setSelectedMovie(movie);
@@ -59,7 +70,7 @@ import { useSelector } from "react-redux";
               <div className="h-48 bg-neutral-800 rounded-lg mb-3"></div>
               <h3 className="text-lg font-semibold">{movie.title}</h3>
               <p className="text-gray-400 text-sm">
-                {movie.genre} | {movie.year}
+                {movie.genre} | {movie.releaseYear}
               </p>
             </div>
           ))}
