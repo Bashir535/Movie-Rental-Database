@@ -1,10 +1,11 @@
---CREATE TABLE users (
---    customerID INT AUTO_INCREMENT PRIMARY KEY,
---    firstName VARCHAR(50) NOT NULL,
---    lastName VARCHAR(50) NOT NULL,
---    email VARCHAR(100) NOT NULL UNIQUE,
---    isAdmin BOOLEAN NOT NULL DEFAULT FALSE
---);
+CREATE TABLE users (
+   customerID INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    isAdmin BOOLEAN NOT NULL DEFAULT FALSE
+);
 
 --ALTER TABLE Users ADD COLUMN password VARCHAR(255) NOT NULL;
 
@@ -15,6 +16,7 @@ CREATE TABLE Movies (
     releaseYear INT NOT NULL,
     stock INT NOT NULL,
     rentalRate DECIMAL(5,2) NOT NULL
+    image LONGBLOB
 );
 
 CREATE TABLE Rentals (
