@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
  const UserHome = () => {
   const [open, setOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const { user } = useSelector((state) => state.auth);
+  const movies = [
+   ];
 
   const movies = [
     { title: "Movie Title 1", genre: "Action", year: "2023" },
@@ -27,10 +31,12 @@ import { Link } from "react-router-dom";
       
       <div className="w-full h-[60vh] bg-neutral-900 flex items-center justify-center border-b border-neutral-800">
         <div className="text-center px-6">
-          <h1 className="text-5xl font-bold mb-4">RSP Movies</h1>
-          <p className="text-gray-300 max-w-xl mx-auto">
-            Rent and Browse for your favorite Movies
-          </p>
+          <h1 className="text-4xl font-bold mb-2">
+          {user ? `Welcome, ${user.firstName}` : "Welcome to RSP Movies"}
+         </h1>
+         <p className="text-gray-300 max-w-xl mx-auto">
+            Rent and browse your favorite movies.
+         </p>
           <Link
             to="/browse"
             className="inline-block bg-white text-black px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition"
