@@ -1,49 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { rentMovie } from "../../api/rental";
 import { getReviews, addReview } from "../../api/review";
+import { getAllMovies } from "../../api/movie";
 
 const BrowsePage = () => {
   const [open, setOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [movies, setMovies] = useState([]);
   const { user } = useSelector((state) => state.auth);
-   
+  
+     useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const data = await getAllMovies();
+        setMovies(data);
+      } catch (e) {
+        console.error(e);
+        toast.error("Failed to load movies.");
+      }
+    };
+
+    fetchMovies();
+  }, []);
+  
   const [reviews, setReviews] = useState([]);
   const [isReviewsLoading, setIsReviewsLoading] = useState(false);
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewComment, setReviewComment] = useState("");
 
-  const movies = [
-    {
-      movieID: 1,
-      title: "The Night Runner",
-      genre: "Action",
-      year: 2022,
-      stock: 5,
-      rate: "$3.99",
-      rating: 4.5,
-    },
-    {
-      movieID: 2,
-      title: "Silent Echo",
-      genre: "Drama",
-      year: 2020,
-      stock: 2,
-      rate: "$2.99",
-      rating: 4.2,
-    },
-    {
-      movieID: 3,
-      title: "Galactic Drift",
-      genre: "Sci-Fi",
-      year: 2023,
-      stock: 0,
-      rate: "$4.99",
-      rating: 4.8,
-    },
-  ];
+  const [movies, setMovies] = useState([]);
 
     const openModal = async (movie) => {
     setSelectedMovie(movie);
@@ -211,7 +199,7 @@ const BrowsePage = () => {
             <div>
               <h2 className="text-xl font-semibold">{movie.title}</h2>
               <p className="text-gray-400 text-sm">
-                {movie.genre} • {movie.year}
+                {movie.genre} • {movie.releaseYear}
               </p>
             </div>
 
@@ -247,11 +235,11 @@ const BrowsePage = () => {
               </p>
               <p>
                 <span className="font-semibold">Release Year:</span>{" "}
-                {selectedMovie.year}
+                {selectedMovie.releaseYear}
               </p>
               <p>
                 <span className="font-semibold">Rental Rate:</span>{" "}
-                {selectedMovie.rate}
+                {selectedMovie.rentalRate}
               </p>
               <p>
                 <span className="font-semibold">Stock Available:</span>{" "}
