@@ -39,4 +39,7 @@ public class RentalService {
 
         return true;
     }
+        public java.util.List<Movie> getMoviesRentedByUser(int customerID) {
+        return rentalRepo.getMoviesRentedByCustomer(customerID);
+    }
 }
