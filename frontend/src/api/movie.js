@@ -13,3 +13,8 @@ export const getMovie = async (id) => {
 export const getMovieImage = (id) => {
   return `${import.meta.env.VITE_BACK_END_URL}/api/movies/${id}/image`;
 };
+
+export const getAllMovies = async () => {
+  const res = await api.get("/movies");
+  return res.data;
+};
