@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logOutUser } from "../store/actions";
+import toast from "react-hot-toast";
 
 export default function NavBar() {
   const { user } = useSelector((state) => state.auth);
@@ -17,7 +18,7 @@ export default function NavBar() {
 
   const handleLogout = () => {
     dispatch(logOutUser(navigate));
-    toast.success("Logged out");
+    toast.success("You have been logged out");
   };
 
   return (
