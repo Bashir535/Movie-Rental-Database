@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { rentMovie } from "../../api/rental";
@@ -11,8 +11,13 @@ const BrowsePage = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [movies, setMovies] = useState([]);
   const { user } = useSelector((state) => state.auth);
-  
-     useEffect(() => {
+
+  const [reviews, setReviews] = useState([]);
+  const [isReviewsLoading, setIsReviewsLoading] = useState(false);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState("");
+
+  useEffect(() => {
     const fetchMovies = async () => {
       try {
         const data = await getAllMovies();
@@ -25,13 +30,8 @@ const BrowsePage = () => {
 
     fetchMovies();
   }, []);
-  
-  const [reviews, setReviews] = useState([]);
-  const [isReviewsLoading, setIsReviewsLoading] = useState(false);
-  const [reviewRating, setReviewRating] = useState(5);
-  const [reviewComment, setReviewComment] = useState("");
 
-  const [movies, setMovies] = useState([]);
+ 
 
     const openModal = async (movie) => {
     setSelectedMovie(movie);
