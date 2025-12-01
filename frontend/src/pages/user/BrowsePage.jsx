@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { rentMovie } from "../../api/rental";
+import { getReviews, addReview } from "../../api/review";
 
 const BrowsePage = () => {
   const [open, setOpen] = useState(false);
