@@ -6,6 +6,7 @@ import com.backend.movierental.repositories.MovieRepository;
 import com.backend.movierental.repositories.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import java.sql.Date;
 
@@ -19,13 +20,13 @@ public class RentalService {
     private MovieRepository movieRepo;
 
     public boolean rentMovie(int customerID, int movieID) {
-        // 1) check movie exists and has stock
+        
         Movie movie = movieRepo.getMovieById(movieID);
         if (movie == null || movie.getStock() <= 0) {
             return false;
         }
 
-        // 2) create rental record
+       
         Rental rental = new Rental();
         rental.setCustomerID(customerID);
         rental.setMovieID(movieID);
@@ -34,11 +35,12 @@ public class RentalService {
 
         rentalRepo.createRental(rental);
 
-        // 3) decrease stock
+        
         movieRepo.decreaseStock(movieID);
 
         return true;
     }
+    
         public java.util.List<Movie> getMoviesRentedByUser(int customerID) {
         return rentalRepo.getMoviesRentedByCustomer(customerID);
     }
