@@ -8,8 +8,12 @@ import { getReviews, addReview } from "../../api/review";
 const BrowsePage = () => {
   const [open, setOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-    const { user } = useSelector((state) => state.auth);
-
+  const { user } = useSelector((state) => state.auth);
+   
+  const [reviews, setReviews] = useState([]);
+  const [isReviewsLoading, setIsReviewsLoading] = useState(false);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState("");
 
   const movies = [
     {
@@ -41,9 +45,25 @@ const BrowsePage = () => {
     },
   ];
 
-  const openModal = (movie) => {
+    const openModal = async (movie) => {
     setSelectedMovie(movie);
     setOpen(true);
+    setReviews([]);
+    setReviewComment("");
+    setReviewRating(5);
+
+    if (!movie.movieID) return;
+
+    try {
+      setIsReviewsLoading(true);
+      const fetchedReviews = await getReviews(movie.movieID);
+      setReviews(fetchedReviews);
+    } catch (e) {
+      console.error(e);
+      toast.error("Failed to load reviews.");
+    } finally {
+      setIsReviewsLoading(false);
+    }
   };
 
   const closeModal = () => {
@@ -75,6 +95,44 @@ const BrowsePage = () => {
     }
   };
 
+    const handleAddReview = async () => {
+    if (!user) {
+      toast.error("You must be logged in to leave a review.");
+      return;
+    }
+
+    if (!selectedMovie || !selectedMovie.movieID) {
+      toast.error("No movie selected.");
+      return;
+    }
+
+    if (reviewRating < 1 || reviewRating > 5) {
+      toast.error("Rating must be between 1 and 5.");
+      return;
+    }
+
+    try {
+      await addReview(
+        selectedMovie.movieID,
+        user.customerID,
+        reviewRating,
+        reviewComment
+      );
+      toast.success("Review submitted!");
+
+      
+      setReviewComment("");
+      setReviewRating(5);
+
+      
+      const updatedReviews = await getReviews(selectedMovie.movieID);
+      setReviews(updatedReviews);
+    } catch (e) {
+      console.error(e);
+      const msg = e?.response?.data || "Failed to submit review.";
+      toast.error(msg);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white px-6 py-10">
@@ -208,25 +266,69 @@ const BrowsePage = () => {
               </p>
             </div>
 
-            {/* Hardcoded reviews */}
-            <h3 className="text-xl font-semibold mb-3">Recent Reviews</h3>
+           
+                        
+            <h3 className="text-xl font-semibold mb-3">Reviews</h3>
 
-            <div className="space-y-3 mb-6">
-              <div className="bg-neutral-800 p-3 rounded-lg border border-neutral-700">
-                <p className="font-semibold text-white">John Doe</p>
-                <p className="text-gray-300 text-sm">
-                  "Great movie, solid action scenes."
-                </p>
+            {isReviewsLoading ? (
+              <p className="text-gray-400 mb-4">Loading reviews...</p>
+            ) : reviews.length === 0 ? (
+              <p className="text-gray-400 mb-4">No reviews yet. Be the first to review!</p>
+            ) : (
+              <div className="space-y-3 mb-6 max-h-48 overflow-y-auto">
+                {reviews.map((rev, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-neutral-800 p-3 rounded-lg border border-neutral-700"
+                  >
+                    <p className="font-semibold text-white">
+                      User #{rev.customerID} &middot; Rating: {rev.rating}/5
+                    </p>
+                    <p className="text-gray-300 text-sm">
+                      {rev.comment}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Add Review Form */}
+            <div className="mb-6 bg-neutral-800 p-4 rounded-lg border border-neutral-700">
+              <h4 className="text-lg font-semibold mb-3">Leave a Review</h4>
+
+              <div className="mb-3">
+                <label className="block text-sm text-gray-300 mb-1">
+                  Rating (1-5)
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  max="5"
+                  value={reviewRating}
+                  onChange={(e) => setReviewRating(Number(e.target.value))}
+                  className="w-24 bg-neutral-700 text-white p-2 rounded"
+                />
               </div>
 
-              <div className="bg-neutral-800 p-3 rounded-lg border border-neutral-700">
-                <p className="font-semibold text-white">Sarah Smith</p>
-                <p className="text-gray-300 text-sm">
-                  "Really enjoyed the cinematography."
-                </p>
+              <div className="mb-3">
+                <label className="block text-sm text-gray-300 mb-1">
+                  Comment
+                </label>
+                <textarea
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                  className="w-full bg-neutral-700 text-white p-2 rounded min-h-[80px]"
+                  placeholder="Write your thoughts about this movie..."
+                />
               </div>
+
+              <button
+                className="bg-white text-black font-semibold px-4 py-2 rounded hover:bg-gray-200 transition"
+                onClick={handleAddReview}
+              >
+                Submit Review
+              </button>
             </div>
-
             
                         <button
               className="w-full bg-white text-black font-semibold p-3 rounded-lg hover:bg-gray-200 transition"
