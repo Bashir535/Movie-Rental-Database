@@ -4,7 +4,7 @@ import com.backend.movierental.models.Movie;
 import com.backend.movierental.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.list;
+import java.util.List;
 
 @Service
 public class MovieService {
