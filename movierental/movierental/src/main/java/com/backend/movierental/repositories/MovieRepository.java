@@ -64,4 +64,22 @@ public class MovieRepository {
         return jdbc.update(sql, movieId);
     }
 
+        public List<Movie> getAllMovies() {
+        String sql = """
+            SELECT movieID, title, genre, releaseYear, stock, rentalRate
+            FROM Movies
+        """;
+
+        return jdbc.query(sql, (rs, rowNum) -> {
+            Movie mv = new Movie();
+            mv.setMovieID(rs.getInt("movieID"));
+            mv.setTitle(rs.getString("title"));
+            mv.setGenre(rs.getString("genre"));
+            mv.setReleaseYear(rs.getInt("releaseYear"));
+            mv.setStock(rs.getInt("stock"));
+            mv.setRentalRate(rs.getDouble("rentalRate"));
+            return mv;
+        });
+    }
+
 }
