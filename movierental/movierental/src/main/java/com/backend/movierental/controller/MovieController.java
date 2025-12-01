@@ -25,6 +25,12 @@ public class MovieController {
         return ResponseEntity.ok(movie);
     }
 
+        @GetMapping
+    public ResponseEntity<List<Movie>> getAllMovies() {
+        List<Movie> movies = service.getAllMovies();
+        return ResponseEntity.ok(movies);
+    }
+
     @GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getMovieImage(@PathVariable int id) {
         byte[] img = service.getMovieImage(id);
