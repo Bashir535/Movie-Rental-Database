@@ -9,14 +9,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfiguration implements WebMvcConfigurer {
 
     @Value("${react.url}")
-    String frontend;
+    private String frontendUrl;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(frontend) // frontend
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedOrigins(frontendUrl)
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
-                .exposedHeaders("*");
+                .exposedHeaders("*")
+                .allowCredentials(true);
     }
 }
