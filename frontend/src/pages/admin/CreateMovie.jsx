@@ -28,8 +28,7 @@ const CreateMovie = () => {
 
         alert("Movie created. Enter ID to fetch.");
 
-        // If your backend returns the created ID, you can auto-fetch:
-        // setMovieId(res.movieID);
+        
     };
 
   const handleGet = async () => {
