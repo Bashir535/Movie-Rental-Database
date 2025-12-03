@@ -6,7 +6,7 @@ import com.backend.movierental.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// Business layer that abstracts the JDBC layer
+
 
 @Service
 public class UserService {
