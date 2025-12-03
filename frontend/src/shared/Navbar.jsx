@@ -9,7 +9,7 @@ export default function NavBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Pages where NavBar should NOT appear
+  
   const hiddenRoutes = ["/", "/register"];
 
   const shouldHide = hiddenRoutes.includes(location.pathname);
