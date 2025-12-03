@@ -77,12 +77,12 @@ const UserHome = () => {
         </div>
       </div>
 
-      {/* Modal */}
+      {}
       {open && selectedMovie && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
           <div className="bg-neutral-900 w-full max-w-lg p-8 rounded-xl border border-neutral-800 relative">
 
-            {/* Close Button */}
+            {}
             <button
               onClick={closeModal}
               className="absolute top-3 right-3 text-gray-300 hover:text-white transition"
@@ -90,7 +90,7 @@ const UserHome = () => {
               ✕
             </button>
 
-            {/* Modal Content */}
+            {}
             <h2 className="text-3xl font-semibold mb-4">
               {selectedMovie.title}
             </h2>
@@ -113,7 +113,7 @@ const UserHome = () => {
               movie details will appear later when logic is added.
             </p>
 
-            {/* Rent Button */}
+            {}
             <button className="w-full bg-white text-black font-semibold p-3 rounded-lg hover:bg-gray-200 transition">
               Rent Movie
             </button>
