@@ -55,6 +55,7 @@ public class MovieRepository {
         List<byte[]> result = jdbc.query(sql, (rs, rowNum) -> rs.getBytes("image"), id);
         return result.isEmpty() ? null : result.get(0);
     }
+
         public int decreaseStock(int movieId) {
         String sql = """
             UPDATE Movies

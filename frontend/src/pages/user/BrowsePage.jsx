@@ -140,7 +140,7 @@ const BrowsePage = () => {
           </label>
           <input
             type="text"
-            placeholder="e.g., The Night Runner"
+            placeholder=""
             className="w-full bg-neutral-800 text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
           />
         </div>

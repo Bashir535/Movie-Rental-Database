@@ -10,5 +10,7 @@ public class Rental {
     private Integer customerID;
     private Integer movieID;
     private Date rentalDate;
-    private Date returnDate; 
+    private Date dueDate;
+    private Date returnDate;
+    private String status;
 }

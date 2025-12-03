@@ -26,22 +26,24 @@ public class RentalService {
             return false;
         }
 
+        Date now = new Date(System.currentTimeMillis());
+        Date due = new Date(now.getTime() + 7L * 24 * 60 * 60 * 1000); // This is 7 days
        
         Rental rental = new Rental();
         rental.setCustomerID(customerID);
         rental.setMovieID(movieID);
-        rental.setRentalDate(new Date(System.currentTimeMillis()));
+        rental.setRentalDate(now);
+        rental.setDueDate(due);
         rental.setReturnDate(null);
+        rental.setStatus("RENTED");
 
         rentalRepo.createRental(rental);
-
-        
         movieRepo.decreaseStock(movieID);
-
         return true;
     }
-    
-        public java.util.List<Movie> getMoviesRentedByUser(int customerID) {
+
+
+    public java.util.List<Movie> getMoviesRentedByUser(int customerID) {
         return rentalRepo.getMoviesRentedByCustomer(customerID);
     }
 }

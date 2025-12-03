@@ -17,18 +17,23 @@ public class RentalRepository {
 
     public int createRental(Rental rental) {
         String sql = """
-                INSERT INTO Rentals (customerID, movieID, rentalDate, returnDate)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO Rentals (customerID, movieID, rentalDate, dueDate, returnDate, status)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """;
 
         return jdbc.update(sql,
                 rental.getCustomerID(),
                 rental.getMovieID(),
                 rental.getRentalDate(),
-                rental.getReturnDate()
+                rental.getDueDate(),
+                rental.getReturnDate(),
+                rental.getStatus()
         );
     }
-        public java.util.List<Movie> getMoviesRentedByCustomer(int customerID) {
+
+
+
+    public List<Movie> getMoviesRentedByCustomer(int customerID) {
         String sql = """
             SELECT m.movieID, m.title, m.genre, m.releaseYear, m.stock, m.rentalRate
             FROM Rentals r
