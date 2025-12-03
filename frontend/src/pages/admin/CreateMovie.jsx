@@ -12,6 +12,7 @@ const CreateMovie = () => {
     const [movieData, setMovieData] = useState(null);
     const [movieId, setMovieId] = useState("");
 
+    
     const handleCreate = async () => {  
         const fd = new FormData();
         fd.append("title", title);
