@@ -31,6 +31,7 @@ public class UserService {
         return repo.getUserNameById(id);
     }
 
+    // Combination of authenticating user and returning user details to the frontend
     public LoginResponse loginAndFetch(String email, String password) {
 
         try {
@@ -40,6 +41,7 @@ public class UserService {
         }
     }
 
+    // Service used for updating user profile feature
     public void updateUser(int customerID, UserUpdateDTO dto) {
         repo.updateUser(customerID, dto);
     }

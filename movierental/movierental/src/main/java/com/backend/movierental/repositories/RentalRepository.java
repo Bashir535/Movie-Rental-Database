@@ -16,6 +16,7 @@ public class RentalRepository {
     @Autowired
     private JdbcTemplate jdbc;
 
+    // Insert a new rental record; return date defaults to null.
     public int createRental(Rental r) {
         String sql = """
             INSERT INTO Rentals (movieID, customerID, rentalDate, dueDate, returnDate, status)
@@ -32,6 +33,7 @@ public class RentalRepository {
         );
     }
 
+    // Retrieve a rental by ID and manually map columns into a Rental object.
     public Rental getRentalById(int rentalID) {
         String sql = """
         SELECT rentalID, movieID, customerID, rentalDate, dueDate, returnDate, status
@@ -55,6 +57,7 @@ public class RentalRepository {
         return list.isEmpty() ? null : list.get(0);
     }
 
+    // Mark a rental as returned and assign the appropriate status.
     public int completeReturn(int rentalID, LocalDateTime returnDate, String status) {
         String sql = """
         UPDATE Rentals
@@ -64,11 +67,13 @@ public class RentalRepository {
         return jdbc.update(sql, returnDate, status, rentalID);
     }
 
+    // Increment stock of a movie when a rental is returned.
     public int increaseStock(int movieID) {
         String sql = "UPDATE Movies SET stock = stock + 1 WHERE movieID = ?";
         return jdbc.update(sql, movieID);
     }
 
+    // Fetch all rentals made by a specific user, joined with movie information.
     public List<UserRentalDTO> getRentalsByUser(int customerID) {
         String sql = """
         SELECT 
@@ -100,6 +105,7 @@ public class RentalRepository {
         }, customerID);
     }
 
+    // Determine whether the user has an active (unreturned) rental for a given movie.
     public boolean hasActiveRental(int customerID, int movieID) {
         String sql = """
         SELECT COUNT(*) 

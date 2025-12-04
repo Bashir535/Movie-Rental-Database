@@ -13,6 +13,7 @@ public class MovieRepository {
     @Autowired
     private JdbcTemplate jdbc;
 
+    // Insert a new movie including optional image bytes.
     public int createMovie(Movie movie) {
         String sql = """
                     INSERT INTO Movies (title, genre, releaseYear, stock, rentalRate, image)
@@ -28,6 +29,7 @@ public class MovieRepository {
                 movie.getImage());
     }
 
+    // Retrieve a movie by ID and map row to Movie object.
     public Movie getMovieById(int id) {
         String sql = """
             SELECT movieID, title, genre, releaseYear, stock, rentalRate
@@ -49,6 +51,7 @@ public class MovieRepository {
         return result.isEmpty() ? null : result.get(0);
     }
 
+    // Return stored image bytes for a movie.
     public byte[] getMovieImage(int id) {
         String sql = "SELECT image FROM Movies WHERE movieID = ?";
 
@@ -56,6 +59,7 @@ public class MovieRepository {
         return result.isEmpty() ? null : result.get(0);
     }
 
+    // Decrement stock when a rental occurs (only if stock > 0).
     public int decreaseStock(int movieID) {
         String sql = """
         UPDATE Movies
@@ -65,6 +69,7 @@ public class MovieRepository {
         return jdbc.update(sql, movieID);
     }
 
+    // Return all movies in the database.
     public List<Movie> getAllMovies() {
         String sql = """
         SELECT movieID, title, genre, releaseYear, stock, rentalRate
@@ -83,6 +88,7 @@ public class MovieRepository {
         });
     }
 
+    // Fetch movies that the specified user has rented in the past.
     public List<Movie> getMoviesRentedByUser(int customerID) {
         String sql = """
         SELECT m.movieID, m.title, m.genre, m.releaseYear, m.stock, m.rentalRate
@@ -104,6 +110,7 @@ public class MovieRepository {
         }, customerID);
     }
 
+    // Delete a movie from the catalog by ID.
     public int deleteMovie(int movieID) {
         String sql = "DELETE FROM Movies WHERE movieID = ?";
         return jdbc.update(sql, movieID);

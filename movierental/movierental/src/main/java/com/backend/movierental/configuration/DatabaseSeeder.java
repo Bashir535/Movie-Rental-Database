@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
+// Script for creating a minimum of 15 entries per table
+// Includes a default admin user. email: admin@example.com, password: admin123
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
     @Autowired

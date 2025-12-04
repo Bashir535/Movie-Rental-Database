@@ -13,6 +13,7 @@ public class UserRepository {
     @Autowired
     private JdbcTemplate jdbc;
 
+    // Insert a new user record using raw SQL parameters
     public int createUser(User user) {
         String sql = """
         INSERT INTO Users (firstName, lastName, email, password, isAdmin)
@@ -27,16 +28,19 @@ public class UserRepository {
                 user.isAdmin());
     }
 
+    // Remove a user by primary key.
     public int deleteUser(int id) {
         String sql = "DELETE FROM Users WHERE customerID = ?";
         return jdbc.update(sql, id);
     }
 
+    // Fetch only the user's first name using a single column query.
     public String getUserNameById(int id) {
         String sql = "SELECT firstName FROM Users WHERE customerID = ?";
         return jdbc.queryForObject(sql, String.class, id);
     }
 
+    // Validate credentials and return essential user details for login.
     public LoginResponse getUserDetails(String email, String password) {
         String sql = """
         SELECT customerID, firstName, lastName, email, isAdmin
@@ -56,6 +60,7 @@ public class UserRepository {
                 email, password);
     }
 
+    // Update editable profile fields for an existing user.
     public int updateUser(int customerID, UserUpdateDTO dto) {
         String sql = """
         UPDATE Users

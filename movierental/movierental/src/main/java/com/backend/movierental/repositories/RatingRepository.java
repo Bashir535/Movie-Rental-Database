@@ -14,6 +14,7 @@ public class RatingRepository {
     @Autowired
     private JdbcTemplate jdbc;
 
+    // Insert a new rating for a movie by a user.
     public int createRating(RatingCreateDTO dto) {
         String sql = """
             INSERT INTO Ratings (movieID, customerID, score, comment, ratingDate)
@@ -28,6 +29,7 @@ public class RatingRepository {
                 LocalDateTime.now());
     }
 
+    // Retrieve all ratings for a movie including reviewer names using a join.
     public List<RatingResponseDTO> getRatingsForMovie(int movieID) {
         String sql = """
         SELECT 

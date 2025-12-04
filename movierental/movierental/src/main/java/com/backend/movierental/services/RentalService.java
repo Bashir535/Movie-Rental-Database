@@ -21,6 +21,8 @@ public class RentalService {
     private RentalRepository rentalRepo;
 
     // We are going to have the due date 3 days after
+    // Rent movie service that checks if stock is sufficient.
+    // On rent, it decreases stock
     public boolean rentMovie(int customerID, int movieID) {
 
         if (rentalRepo.hasActiveRental(customerID, movieID)) {
@@ -47,6 +49,7 @@ public class RentalService {
         return true;
     }
 
+    // Increase stock on return
     public boolean returnMovie(int rentalID) {
 
         Rental r = rentalRepo.getRentalById(rentalID);
