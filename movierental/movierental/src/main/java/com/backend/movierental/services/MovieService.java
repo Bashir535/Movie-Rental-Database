@@ -5,6 +5,8 @@ import com.backend.movierental.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MovieService {
 
@@ -21,5 +23,13 @@ public class MovieService {
 
     public byte[] getMovieImage(int id) {
         return repo.getMovieImage(id);
+    }
+
+    public List<Movie> getAllMovies() {
+        return repo.getAllMovies();
+    }
+
+    public List<Movie> getMoviesRentedByUser(int customerID) {
+        return repo.getMoviesRentedByUser(customerID);
     }
 }

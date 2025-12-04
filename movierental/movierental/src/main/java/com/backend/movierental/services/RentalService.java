@@ -2,12 +2,14 @@ package com.backend.movierental.services;
 
 import com.backend.movierental.models.Movie;
 import com.backend.movierental.models.Rental;
+import com.backend.movierental.payloadDTOs.UserRentalDTO;
 import com.backend.movierental.repositories.MovieRepository;
 import com.backend.movierental.repositories.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class RentalService {
@@ -38,4 +40,31 @@ public class RentalService {
 
         return true;
     }
+
+    public boolean returnMovie(int rentalID) {
+
+        Rental r = rentalRepo.getRentalById(rentalID);
+        if (r == null) {
+            return false;
+        }
+
+        // check if already returned
+        if (r.getReturnDate() != null) {
+            return false;
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+
+        String newStatus = now.isAfter(r.getDueDate()) ? "LATE" : "RETURNED";
+
+        rentalRepo.completeReturn(rentalID, now, newStatus);
+        rentalRepo.increaseStock(r.getMovieID());
+
+        return true;
+    }
+
+    public List<UserRentalDTO> getRentalsByUser(int customerID) {
+        return rentalRepo.getRentalsByUser(customerID);
+    }
+
 }

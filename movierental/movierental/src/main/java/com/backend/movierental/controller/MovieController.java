@@ -60,4 +60,15 @@ public class MovieController {
 
         return ResponseEntity.ok("Movie created");
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(service.getAllMovies());
+    }
+
+    @GetMapping("/user/{customerID}")
+    public ResponseEntity<?> getUserRentedMovies(@PathVariable int customerID) {
+        return ResponseEntity.ok(service.getMoviesRentedByUser(customerID));
+    }
+
 }

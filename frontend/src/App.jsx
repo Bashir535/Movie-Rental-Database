@@ -28,7 +28,7 @@ function Main() {
           <Route path="/userhome" element={<UserHome />} />
           <Route path="/browse" element={<BrowsePage />} />
 
-          <Route path="/test-image" element={<ProtectedRoute><CreateMovie /></ProtectedRoute>} />
+          <Route path="/create-image" element={<ProtectedRoute><CreateMovie /></ProtectedRoute>} />
         </Route>
       </Routes>
     </>

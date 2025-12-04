@@ -3,10 +3,7 @@ package com.backend.movierental.controller;
 import com.backend.movierental.services.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/rentals")
@@ -26,4 +23,19 @@ public class RentalController {
 
         return ResponseEntity.ok("Movie rented");
     }
+
+    @PostMapping("/{rentalID}/return")
+    public ResponseEntity<?> returnRental(@PathVariable int rentalID) {
+
+        boolean ok = service.returnMovie(rentalID);
+        if (!ok) return ResponseEntity.status(400).body("Cannot return rental");
+
+        return ResponseEntity.ok("Return processed");
+    }
+
+    @GetMapping("/user/{customerID}")
+    public ResponseEntity<?> getRentedMovies(@PathVariable int customerID) {
+        return ResponseEntity.ok(service.getRentalsByUser(customerID));
+    }
+
 }

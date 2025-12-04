@@ -64,4 +64,43 @@ public class MovieRepository {
         """;
         return jdbc.update(sql, movieID);
     }
+
+    public List<Movie> getAllMovies() {
+        String sql = """
+        SELECT movieID, title, genre, releaseYear, stock, rentalRate
+        FROM Movies
+        """;
+
+        return jdbc.query(sql, (rs, rowNum) -> {
+            Movie mv = new Movie();
+            mv.setMovieID(rs.getInt("movieID"));
+            mv.setTitle(rs.getString("title"));
+            mv.setGenre(rs.getString("genre"));
+            mv.setReleaseYear(rs.getInt("releaseYear"));
+            mv.setStock(rs.getInt("stock"));
+            mv.setRentalRate(rs.getDouble("rentalRate"));
+            return mv;
+        });
+    }
+
+    public List<Movie> getMoviesRentedByUser(int customerID) {
+        String sql = """
+        SELECT m.movieID, m.title, m.genre, m.releaseYear, m.stock, m.rentalRate
+        FROM Rentals r
+        JOIN Movies m ON r.movieID = m.movieID
+        WHERE r.customerID = ?
+        ORDER BY r.rentalDate DESC
+        """;
+
+        return jdbc.query(sql, (rs, rowNum) -> {
+            Movie mv = new Movie();
+            mv.setMovieID(rs.getInt("movieID"));
+            mv.setTitle(rs.getString("title"));
+            mv.setGenre(rs.getString("genre"));
+            mv.setReleaseYear(rs.getInt("releaseYear"));
+            mv.setStock(rs.getInt("stock"));
+            mv.setRentalRate(rs.getDouble("rentalRate"));
+            return mv;
+        }, customerID);
+    }
 }
