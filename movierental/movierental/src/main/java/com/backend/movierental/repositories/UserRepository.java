@@ -2,6 +2,7 @@ package com.backend.movierental.repositories;
 
 import com.backend.movierental.models.User;
 import com.backend.movierental.payloadDTOs.LoginResponse;
+import com.backend.movierental.payloadDTOs.UserUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -53,6 +54,20 @@ public class UserRepository {
                                 rs.getBoolean("isAdmin")
                         ),
                 email, password);
+    }
+
+    public int updateUser(int customerID, UserUpdateDTO dto) {
+        String sql = """
+        UPDATE Users
+        SET firstName = ?, lastName = ?, email = ?
+        WHERE customerID = ?
+    """;
+
+        return jdbc.update(sql,
+                dto.getFirstName(),
+                dto.getLastName(),
+                dto.getEmail(),
+                customerID);
     }
 
 }

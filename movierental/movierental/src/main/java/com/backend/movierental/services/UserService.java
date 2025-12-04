@@ -2,6 +2,7 @@ package com.backend.movierental.services;
 
 import com.backend.movierental.models.User;
 import com.backend.movierental.payloadDTOs.LoginResponse;
+import com.backend.movierental.payloadDTOs.UserUpdateDTO;
 import com.backend.movierental.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,9 @@ public class UserService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public void updateUser(int customerID, UserUpdateDTO dto) {
+        repo.updateUser(customerID, dto);
     }
 }

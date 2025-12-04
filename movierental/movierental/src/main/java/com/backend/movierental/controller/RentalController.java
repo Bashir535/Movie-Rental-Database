@@ -18,7 +18,8 @@ public class RentalController {
         boolean ok = service.rentMovie(customerID, movieID);
 
         if (!ok) {
-            return ResponseEntity.status(400).body("Movie unavailable or not found");
+            System.out.println("Movie rented already");
+            return ResponseEntity.status(400).body("Movie already rented or unavailable");
         }
 
         return ResponseEntity.ok("Movie rented");

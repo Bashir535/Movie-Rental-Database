@@ -30,20 +30,31 @@ public class RatingRepository {
 
     public List<RatingResponseDTO> getRatingsForMovie(int movieID) {
         String sql = """
-            SELECT ratingID, movieID, customerID, score, comment, ratingDate
-            FROM Ratings
-            WHERE movieID = ?
-            ORDER BY ratingDate DESC
-        """;
+        SELECT 
+            r.ratingID,
+            r.movieID,
+            r.customerID,
+            CONCAT(u.firstName, ' ', u.lastName) AS customerName,
+            r.score,
+            r.comment,
+            r.ratingDate
+        FROM Ratings r
+        JOIN Users u ON r.customerID = u.customerID
+        WHERE r.movieID = ?
+        ORDER BY r.ratingDate DESC
+    """;
 
         return jdbc.query(sql, (rs, row) ->
-                new RatingResponseDTO(
-                        rs.getInt("ratingID"),
-                        rs.getInt("movieID"),
-                        rs.getInt("customerID"),
-                        rs.getInt("score"),
-                        rs.getString("comment"),
-                        rs.getTimestamp("ratingDate").toLocalDateTime()
-                ), movieID);
+                        new RatingResponseDTO(
+                                rs.getInt("ratingID"),
+                                rs.getInt("movieID"),
+                                rs.getInt("customerID"),
+                                rs.getString("customerName"),
+                                rs.getInt("score"),
+                                rs.getString("comment"),
+                                rs.getTimestamp("ratingDate").toLocalDateTime()
+                        ),
+                movieID
+        );
     }
 }

@@ -100,5 +100,17 @@ public class RentalRepository {
         }, customerID);
     }
 
+    public boolean hasActiveRental(int customerID, int movieID) {
+        String sql = """
+        SELECT COUNT(*) 
+        FROM Rentals
+        WHERE customerID = ? 
+          AND movieID = ?
+          AND returnDate IS NULL
+    """;
+
+        Integer count = jdbc.queryForObject(sql, Integer.class, customerID, movieID);
+        return count != null && count > 0;
+    }
 
 }

@@ -43,7 +43,7 @@ const BrowsePage = () => {
       </div>
 
       {open && selectedMovie && (
-        <MovieModal movie={selectedMovie} onClose={closeModal} onRented={loadMovies}/>
+        <MovieModal movie={selectedMovie} onClose={closeModal} onRented={loadMovies} onReviewAdded={() => console.log("review added")}/>
       )}
     </div>
   );

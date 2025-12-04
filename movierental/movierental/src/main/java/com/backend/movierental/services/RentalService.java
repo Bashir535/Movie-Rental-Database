@@ -22,6 +22,12 @@ public class RentalService {
 
     // We are going to have the due date 3 days after
     public boolean rentMovie(int customerID, int movieID) {
+
+        if (rentalRepo.hasActiveRental(customerID, movieID)) {
+            return false;  // already rented and not returned
+        }
+
+
         Movie movie = movieRepo.getMovieById(movieID);
         if (movie == null || movie.getStock() <= 0) {
             return false;

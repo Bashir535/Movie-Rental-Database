@@ -41,7 +41,7 @@ const CreateMovie = () => {
 
   return (
     <div className="p-10 bg-neutral-900 text-white min-h-screen space-y-8">
-      <h1 className="text-3xl font-semibold">Movie Image Test</h1>
+      <h1 className="text-3xl font-semibold">Movie Creation</h1>
 
       <div className="space-y-3 bg-neutral-800 p-6 rounded-lg">
         <h2 className="text-xl">Create Movie</h2>
