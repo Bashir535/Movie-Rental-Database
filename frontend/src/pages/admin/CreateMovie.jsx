@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createMovie, getMovie, getMovieImage } from "../../api/movie";
+import MovieDelete from "./MovieDelete";
 
 const CreateMovie = () => {
     const [title, setTitle] = useState("");
@@ -132,6 +133,8 @@ const CreateMovie = () => {
           />
         </div>
       )}
+
+      <MovieDelete />
     </div>
   );
 }

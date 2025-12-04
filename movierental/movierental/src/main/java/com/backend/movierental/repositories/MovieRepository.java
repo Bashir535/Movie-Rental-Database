@@ -103,4 +103,9 @@ public class MovieRepository {
             return mv;
         }, customerID);
     }
+
+    public int deleteMovie(int movieID) {
+        String sql = "DELETE FROM Movies WHERE movieID = ?";
+        return jdbc.update(sql, movieID);
+    }
 }

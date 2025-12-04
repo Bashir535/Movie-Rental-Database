@@ -32,4 +32,8 @@ public class MovieService {
     public List<Movie> getMoviesRentedByUser(int customerID) {
         return repo.getMoviesRentedByUser(customerID);
     }
+
+    public void deleteMovie(int movieID) {
+        repo.deleteMovie(movieID);
+    }
 }

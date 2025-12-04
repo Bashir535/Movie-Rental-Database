@@ -19,3 +19,7 @@ export const getAllMovies = async () => {
     return res.data;
 };
 
+export const deleteMovie = async (movieID) => {
+  const res = await api.delete(`/movies/${movieID}/delete`);
+  return res.data;
+};

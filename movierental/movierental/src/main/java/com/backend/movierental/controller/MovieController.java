@@ -71,4 +71,10 @@ public class MovieController {
         return ResponseEntity.ok(service.getMoviesRentedByUser(customerID));
     }
 
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<?> deleteMovie(@PathVariable int id) {
+        service.deleteMovie(id);
+        return ResponseEntity.ok("Movie deleted");
+    }
+
 }
