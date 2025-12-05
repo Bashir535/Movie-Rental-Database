@@ -20,7 +20,7 @@ Make sure you 'git clone' this project in your desired directory
     * Select operating system as macOS
     * Select OS Version depending on whether you are on ARM Chip or Intel Chip
     * Download DMG archive and go through installation steps and enter in root password that you can easily remember
-    * Now you need to install mysql workbench. Go to dev.mysql.com/downloads/workbench
+    * Now you need to install mysql workbench. Go to dev.mysql.com/downloads/workbench and install using the same OS settings as you did installing mySQL
     * Go to system settings on mac. Scroll all the way down on the left panel and you should see mySQL. CLick on it and you will see that the instance is running.
     * Open mysql workbench and log in into local instance 3306 
 * Create a database instance named exactly 'movierental'
