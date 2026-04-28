@@ -12,7 +12,6 @@ public class MancalaTest {
     }
 }
 
-
 class GameWindow extends JFrame {
 
     private final MancalaModel model;
