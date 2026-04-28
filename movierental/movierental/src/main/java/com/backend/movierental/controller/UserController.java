@@ -3,12 +3,13 @@ package com.backend.movierental.controller;
 import com.backend.movierental.models.User;
 import com.backend.movierental.payloadDTOs.LoginRequest;
 import com.backend.movierental.payloadDTOs.LoginResponse;
+import com.backend.movierental.payloadDTOs.UserUpdateDTO;
 import com.backend.movierental.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+// API endpoints that backend touches
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -44,5 +45,14 @@ public class UserController {
         }
 
         return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/{id}/update")
+    public ResponseEntity<?> update(
+            @PathVariable int id,
+            @RequestBody UserUpdateDTO dto) {
+
+        service.updateUser(id, dto);
+        return ResponseEntity.ok("Profile updated");
     }
 }

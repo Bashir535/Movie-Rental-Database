@@ -13,6 +13,8 @@ import HiddenRoute from './shared/HiddenRoute'
 import ProtectedRoute from './shared/ProtectedRoute'
 import CreateMovie from './pages/admin/CreateMovie'
 import NavBar from './shared/Navbar'
+import EditProfile from './pages/user/EditProfile'
+import MovieDelete from './pages/admin/MovieDelete'
 
 function Main() {
  
@@ -27,8 +29,9 @@ function Main() {
         <Route element={<HiddenRoute />}>
           <Route path="/userhome" element={<UserHome />} />
           <Route path="/browse" element={<BrowsePage />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
 
-          <Route path="/test-image" element={<ProtectedRoute><CreateMovie /></ProtectedRoute>} />
+          <Route path="/admin-panel" element={<ProtectedRoute><CreateMovie /></ProtectedRoute>} />
         </Route>
       </Routes>
     </>

@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { signupUser } from "../../store/actions";
 import toast from "react-hot-toast";
 
@@ -67,6 +67,13 @@ const Register = () => {
           >
             Register
           </button>
+
+          <Link
+            to="/"
+            className="w-full bg-white text-black font-semibold p-3 rounded-lg hover:bg-gray-200 transition"
+          >
+            Login
+          </Link>
         </form>
       </div>
     </div>

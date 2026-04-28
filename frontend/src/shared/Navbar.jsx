@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logOutUser } from "../store/actions";
 
 export default function NavBar() {
@@ -13,11 +13,13 @@ export default function NavBar() {
 
   const shouldHide = hiddenRoutes.includes(location.pathname);
 
+  const isAdmin = user?.admin === true;
+
   if (shouldHide) return null;
 
   const handleLogout = () => {
     dispatch(logOutUser(navigate));
-    toast.success("Logged out");
+    //toast.success("Logged out");
   };
 
   return (
@@ -30,6 +32,32 @@ export default function NavBar() {
           Logout
         </button>
       )}
+
+        <Link
+          to="/edit-profile"
+          className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 mr-2"
+        >
+          
+        Edit Profile
+      </Link>
+
+       <Link
+          to="/userhome"
+          className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 mr-2"
+        >
+          
+        Home
+      </Link>
+
+       {isAdmin && (
+      <Link
+          to="/admin-panel"
+          className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 mr-2"
+        >
+          
+        Admin Panel
+      </Link>
+       )}
     </div>
   );
 }
